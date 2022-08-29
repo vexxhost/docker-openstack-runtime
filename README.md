@@ -9,10 +9,11 @@ to build a complete runtime environment for any OpenStack project.
 FROM quay.io/vexxhost/bindep-loci:latest AS bindep
 
 FROM quay.io/vexxhost/openstack-builder-jammy:latest AS builder
-COPY --from=bindep /runtime-pip-packages /runtime-pip-packages
+COPY --from=bindep --link /runtime-pip-packages /runtime-pip-packages
 
 FROM quay.io/vexxhost/openstack-runtime-jammy:latest AS runtime
-COPY --from=bindep /runtime-dist-packages /runtime-dist-packages
+COPY --from=bindep --link /runtime-dist-packages /runtime-dist-packages
+COPY --from=builder --link /var/lib/openstack /var/lib/openstack
 ```
 
 The following images are published for all the different OpenStack releases:
