@@ -11,6 +11,7 @@ RUN <<EOF bash -xe
   apt-get update
   apt-get install -y --no-install-recommends \
     ca-certificates \
+    libpython3.8 \
     lsb-release \
     netbase \
     python3 \

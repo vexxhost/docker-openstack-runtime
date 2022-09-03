@@ -39,3 +39,4 @@ jobs:
           tags: |
             quay.io/vexxhost/openstack-runtime-${{ matrix.release }}:latest
             quay.io/vexxhost/openstack-runtime-${{ matrix.release }}:${{ steps.current-time.outputs.formattedTime }}
+            quay.io/vexxhost/openstack-runtime-${{ matrix.release }}:${{ github.sha }}
