@@ -6,6 +6,12 @@ FROM ${FROM}
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PATH=/var/lib/openstack/bin:$PATH
 
+# Install Kuberentes repository
+ARG BUILDOS
+ARG BUILDARCH
+ARG KUBECTL_VERSION=v1.25.0
+ADD --chmod=755 https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/${BUILDOS}/${BUILDARCH}/kubectl /usr/local/bin/kubectl
+
 # Install run-time dependencies
 RUN <<EOF bash -xe
   apt-get update
