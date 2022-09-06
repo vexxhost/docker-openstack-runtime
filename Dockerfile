@@ -7,10 +7,10 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV PATH=/var/lib/openstack/bin:$PATH
 
 # Install Kuberentes repository
-ARG BUILDOS
-ARG BUILDARCH
-ARG KUBECTL_VERSION=v1.25.0
-ADD --chmod=755 https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/${BUILDOS}/${BUILDARCH}/kubectl /usr/local/bin/kubectl
+ADD https://packages.cloud.google.com/apt/doc/apt-key.gpg /usr/share/keyrings/kubernetes-archive-keyring.gpg
+COPY <<EOF /etc/apt/sources.list.d/kubernetes.list
+deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main
+EOF
 
 # Install run-time dependencies
 RUN <<EOF bash -xe
