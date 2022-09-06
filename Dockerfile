@@ -6,12 +6,6 @@ FROM ${FROM}
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PATH=/var/lib/openstack/bin:$PATH
 
-# Install Kuberentes repository
-ADD https://packages.cloud.google.com/apt/doc/apt-key.gpg /usr/share/keyrings/kubernetes-archive-keyring.gpg
-COPY <<EOF /etc/apt/sources.list.d/kubernetes.list
-deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main
-EOF
-
 # Install run-time dependencies
 RUN <<EOF bash -xe
   apt-get update
@@ -26,6 +20,12 @@ RUN <<EOF bash -xe
     ubuntu-cloud-keyring
   apt-get clean
   rm -rf /var/lib/apt/lists/*
+EOF
+
+# Install Kuberentes repository
+ADD https://packages.cloud.google.com/apt/doc/apt-key.gpg /usr/share/keyrings/kubernetes-archive-keyring.gpg
+COPY <<EOF /etc/apt/sources.list.d/kubernetes.list
+deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main
 EOF
 
 # Build the run-time image
