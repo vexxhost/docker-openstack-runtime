@@ -23,7 +23,7 @@ RUN <<EOF bash -xe
 EOF
 
 # Install Kuberentes repository
-ADD https://packages.cloud.google.com/apt/doc/apt-key.gpg /usr/share/keyrings/kubernetes-archive-keyring.gpg
+ADD --chmod=644 https://packages.cloud.google.com/apt/doc/apt-key.gpg /usr/share/keyrings/kubernetes-archive-keyring.gpg
 COPY <<EOF /etc/apt/sources.list.d/kubernetes.list
 deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main
 EOF
