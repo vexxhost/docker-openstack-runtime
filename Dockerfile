@@ -37,7 +37,7 @@ ONBUILD RUN <<EOF
   echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu $(lsb_release -sc)-updates/${RELEASE} main" \
     > /etc/apt/sources.list.d/cloudarchive-${RELEASE}.list
 EOF
-ONBUILD RUN <<EOF
+ONBUILD RUN <<EOF /bin/bash
   set -xe
   if [[ "${RELEASE}" = "wallaby" || "${RELEASE}" = "xena" ]]; then
     echo "deb http://download.ceph.com/debian-pacific/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/ceph.list
