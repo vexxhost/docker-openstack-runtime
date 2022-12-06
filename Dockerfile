@@ -22,13 +22,10 @@ RUN <<EOF bash -xe
   rm -rf /var/lib/apt/lists/*
 EOF
 
-# Install keys
-ADD --chmod=644 ceph.gpg /etc/apt/trusted.gpg.d/ceph.gpg
-ADD --chmod=644 kubernetes.gpg /etc/apt/trusted.gpg.d/kubernetes.gpg
-
 # Install Kuberentes repository
+ADD --chmod=644 https://packages.cloud.google.com/apt/doc/apt-key.gpg /usr/share/keyrings/kubernetes-archive-keyring.gpg
 COPY <<EOF /etc/apt/sources.list.d/kubernetes.list
-deb https://apt.kubernetes.io/ kubernetes-xenial main
+deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main
 EOF
 
 # Build the run-time image
@@ -36,17 +33,6 @@ ONBUILD ARG RELEASE
 ONBUILD RUN <<EOF
   echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu $(lsb_release -sc)-updates/${RELEASE} main" \
     > /etc/apt/sources.list.d/cloudarchive-${RELEASE}.list
-EOF
-ONBUILD RUN <<EOF
-  set -xe
-  if [[ "${RELEASE}" = "wallaby" || "${RELEASE}" = "xena" ]]; then
-    echo "deb http://download.ceph.com/debian-pacific/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/ceph.list
-  elif [[ "${RELEASE}" = "yoga" || "${RELEASE}" = "zed" ]]; then
-    echo "deb http://download.ceph.com/debian-quincy/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/ceph.list
-  else
-    echo "${RELEASE} is not supported on $(lsb_release -sc)"
-    exit 1
-  fi
 EOF
 ONBUILD ARG PROJECT
 ONBUILD RUN <<EOF
