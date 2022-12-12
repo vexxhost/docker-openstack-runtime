@@ -16,6 +16,7 @@ RUN <<EOF bash -xe
     netbase \
     python3 \
     python3-distutils \
+    python3-six \
     sudo \
     ubuntu-cloud-keyring
   apt-get clean
